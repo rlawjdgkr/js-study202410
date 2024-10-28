@@ -30,5 +30,6 @@ let anniversary = '신정';
 
 //let sentence = month + '월 ' + day + '일은 ' + anniversary + '입니다';
 let sentence =`${month}월 ${day}일은 ${anniversary}입니다`;
+
 console.log(sentence);
 
