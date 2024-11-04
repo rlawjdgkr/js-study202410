@@ -78,9 +78,9 @@ let articles = {
 };
 
 console.log(articles.articleList.length);
-console.log(articles.articleList.title);
+console.log(articles.articleList[2].title);
 for(let obj of articles.articleList){
   console.log(obj.title);
+  
 }
-
 
