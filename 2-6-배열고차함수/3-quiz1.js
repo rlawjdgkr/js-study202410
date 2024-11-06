@@ -117,6 +117,8 @@ console.log(ListArray);
 
 // 연습 4: 모든 거래자의 이름을 배열에 모아주세요.
 
+const allTrader = traders.map(user => user.trader.name);
+console.log(allTrader);
 
 // 연습 5: 서울에 사는 거래자의 모든 거래액의 총합 출력.
 
