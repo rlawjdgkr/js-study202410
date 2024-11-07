@@ -145,7 +145,7 @@ console.log('=========5번===========');
 const m5 = traders
 .filter((user) => user.value >= 700000)
 .reduce((yearObj , user) =>{
-    year = user.year;
+    year = String(user.year);
     if(yearObj[year] === undefined){
       yearObj[year] = [user];
     }else{
@@ -164,6 +164,31 @@ const m5 = traders
 //   평균 거래액을 계산해주세요.
 //   결과는 `{거래자이름: 평균거래액}` 형태의 객체가 되어야 합니다.**
 
+/* 
+평균을 구하려면 각 거래자의 거래액의 총합과 거래 횟수가 필요하다
+*/
+
+const m6 = traders.reduce((sumCountObj, trs) => {
+  const name = trs.trader.name;
+  if(sumCountObj[name] === undefined){
+    sumCountObj[name] = {sum : trs.value, count : 1};
+  }else{
+    sumCountObj[name].sum += trs.value;
+    sumCountObj[name].count++;
+  }
+  return sumCountObj;
+}, {});
+
+console.log('===================');
+console.log(m6);
+
+
+for (const key in m6){
+  m6[key] = m6[key].sum / m6[key].count;
+  console.log(m6);
+  
+}
+
 
 
 
@@ -171,10 +196,58 @@ const m5 = traders
 
 // 7. **2022년과 2023년 각각에서 가장 많은 거래를 한 거래자의
 //   이름과 그 거래 횟수를 출력해주세요.**
+console.log('==========================');
+
+
+/*
+  {
+    '2022_김철수' : {sum : xxx, count: xxx}.
+    '2023_김철수' : {sum : xxx, count: xxx}.
+    '2022_박영희' : {sum : xxx, count: xxx}.
+    '2023_박영희' : {sum : xxx, count: xxx}.
+  }
+*/
+
+const m7 = traders.reduce((yearNameObj, trs) => {
+
+  const key = `${trs.year}_${trs.trader.name}`;
+  if(yearNameObj[key] === undefined){
+    yearNameObj[key] = 1;
+  }else{
+    yearNameObj[key]++;
+  }
+  return yearNameObj;
+}, {});
+
+console.log(m7);
 
 
 // 8. **모든 거래 중 거래액이 중간값인
 //   거래의 정보(거래자 이름, 도시, 연도, 거래액)를 출력해주세요.**
+
+
+
+const m8 = traders.sort((trs1 , trs2) => trs1.value - trs2.value);
+// console.log(m8);
+
+
+// 가운데 인덱스 찾기
+// 9개짜리 배열에서 인덱스의 범위는 0 ~ 8
+const middleIndex = Math.floor(m8.length / 2);
+
+
+// 중간 거래액
+let middleTradeValue;
+//데이터가 홀수개 인경우
+if(m8.length % 2 === 1){
+  middleTradeValue = m7[middleIndex].value;
+}else{  //데이터가 짝수개 인경우
+  const firstMiddleValue = m8[middleIndex].value;
+  const secondMiddleValue = m8[middleIndex-1].value;
+  middleTradeValue = (firstMiddleValue + secondMiddleValue)/2
+}
+console.log(middleTradeValue);
+
 
 // 9. **각 도시에서 진행된 거래의 수를 계산해주세요.
 //   결과는 `{도시이름: 거래수}` 형태의 객체여야 합니다.**
@@ -186,4 +259,6 @@ const m5 = traders
 // 10. **거래액을 기준으로 모든 거래를 오름차순으로 정렬한 후,
 //   정렬된 리스트를 출력해주세요.
 //   각 거래 정보는 거래자 이름, 도시, 연도, 거래액을 포함해야 합니다.**
+
+
 
