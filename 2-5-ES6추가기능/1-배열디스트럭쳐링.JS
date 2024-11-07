@@ -39,9 +39,30 @@ const nums = [1,3,5,7,9,11];
 // const one = nums.shift();
 // const three =nums.shift();
 
-console.log(`one :${one}`);
-console.log(`three:${three}`);
-console.log(`others:`,numsCopy);
+// console.log(`one :${one}`);
+// console.log(`three:${three}`);
+// console.log(`others:`,numsCopy);
 
 const[one, three , ...numsCopy]  =nums
+console.log(nums);
+
+
+console.log('====================');
+
+// 스프레드를 통한 배열 합치기
+const foods = ['햄버거' , '콜라' , '감자튀김'];
+const fruits = ['오렌지' , '자몽' , '레몬'];
+
+const newFoods = [...foods, ...fruits];
+
+console.log(newFoods);
+
+//배열 복사
+const newFruits = [...fruits];
+console.log(newFruits);
+
+
+const myFavoriteFoods = ['족발', ...foods, '닭강정' ,'피자'];
+console.log(myFavoriteFoods);
+
 

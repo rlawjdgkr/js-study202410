@@ -11,10 +11,11 @@ for (let i = 0; i < 10 ; i++) {
  console.log('잘가');
 }
 // 구구단 2단 출력
-let level = 99;
+for(let level=1; level <=9; level++){
 for(let line = 1 ; line <= 9; line ++){
 
   console.log(`${level} x ${line} = ${level * line}`);
+}
 }
 console.log('반복문 종료');
 
