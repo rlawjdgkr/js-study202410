@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+ 
+  <p id="greeting">기존 인사말</p>
+  <div id="description">페이지 설명:</div>
+
+  <ul id="menu">
+    <li>기존 메뉴 1</li>
+    <li>기존 메뉴 2</li>
+  </ul>
+  
+  
+<script>
+  const greetingElement = document.getElementById('greeting');
+  greetingElement.textContent = '안녕하세요';
+
+  const $description = document.getElementById('description');
+  $description.innerHTML += '이 페이지를 즐겨주세요!'
+  $description.style.fontWeight ='bold';
+  
+  
+
+</script>
+</body>
+</html>
