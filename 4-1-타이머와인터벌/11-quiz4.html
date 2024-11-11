@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>스탑워치</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    .stopwatch {
+      font-size: 2rem;
+      margin: 20px;
+    }
+    .buttons, .log-container {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .log-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .log-entry {
+      font-size: 1rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>스탑워치</h1>
+  <div class="stopwatch" id="display">00:00:00</div>
+  <div class="buttons">
+    <button id="start">시작</button>
+    <button id="pause" disabled>일시정지</button>
+    <button id="reset">초기화</button>
+  </div>
+  <div class="log-container" id="logContainer">
+    <h2>일시정지 로그</h2>
+  </div>
+
+
+
+
+  <script>
+    let timerInterval;
+    let elapsedTime = 0; // 경과 시간 (밀리초 단위)
+    let isRunning = false;
+
+    const display = document.getElementById("display");
+    const startButton = document.getElementById("start");
+    const pauseButton = document.getElementById("pause");
+    const resetButton = document.getElementById("reset");
+    const logContainer = document.getElementById("logContainer");
+
+    // 시간 표시 업데이트
+    function updateDisplay() {
+  const minutes = String(Math.floor(elapsedTime / 60000)).padStart(2, "0");
+  const seconds = String(Math.floor((elapsedTime % 60000) / 1000)).padStart(2, "0"); // 초 단위 계산
+  const milliseconds = String(Math.floor((elapsedTime % 1000) / 10)).padStart(2, "0");
+  display.textContent = `${minutes}:${seconds}:${milliseconds}`;   // minutes와 seconds와 miliseconds를 불러와textContent
+}
+
+
+    // 스탑워치 시작
+    function startStopwatch() {
+      isRunning = true;
+      startButton.disabled = true;
+      pauseButton.disabled = false;
+      pauseButton.textContent = "일시정지";
+
+      timerInterval = setInterval(() => {
+        elapsedTime += 10; // 10밀리초씩 증가
+        updateDisplay();
+      }, 10);
+    }
+
+    // 스탑워치 일시정지
+    function pauseStopwatch() {
+      if (isRunning) {
+       clearInterval(timerInterval);
+        isRunning = false;
+        console.log(`일시정지 시간: ${display.textContent} `);  // 로그에 일시정지 시간 추가
+        pauseButton.textContent = "재개";
+      } else {
+        startStopwatch();
+        pauseButton.textContent= "일시정지";  
+      }
+    }
+
+    // 초기화
+    function resetStopwatch() {
+      clearInterval(timerInterval);
+      elapsedTime = 0;
+      isRunning = false;
+      updateDisplay();
+      isRunning= false;
+      pauseButton.disabled = true;
+      pauseButton.textContent = "일시정지";
+      logContainer.innerHTML = "<h2>일시정지 로그</h2>"; // 로그 초기화
+    }
+
+    // 일시정지 로그 추가
+    function addLogEntry() {
+      const logEntry = document.createElement("div");
+      logEntry.classList.add("log-entry");
+      logEntry.textContent = `일시정지 시간: ${display.textContent}`;
+      logContainer.appendChild(logEntry);
+    }
+    addLogEntry();
+    // 이벤트 리스너 설정
+    startButton.addEventListener("click", startStopwatch);
+    pauseButton.addEventListener("click", pauseStopwatch);
+    resetButton.addEventListener("click", resetStopwatch);
+  </script>
+</body>
+</html>

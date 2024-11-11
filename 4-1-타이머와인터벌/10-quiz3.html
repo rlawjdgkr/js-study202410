@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>디지털 시계</title>
+  <style>
+    .clock-container {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      margin-top: 50px;
+    }
+    .clock-display {
+      font-size: 36px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+    .button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="clock-container">
+    <div class="clock-display" id="clockDisplay">00:00:00</div>
+    <button class="button" id="pauseButton">일시 정지</button>
+  </div>
+
+  <script>
+    let timerRunning = true;
+    let clockInterval;
+
+    // 현재 시간을 표시하는 함수
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clockDisplay').textContent = now.toLocaleTimeString();
+    }
+
+    // 타이머 시작
+    function startClock() {
+      updateClock(); // 처음 호출 시 현재 시간을 즉시 표시
+      clockInterval = setInterval(updateClock, 1000);
+    }
+
+    // 타이머 초기 시작
+    startClock();
+
+    // 일시 정지 및 재개 버튼
+    document.getElementById('pauseButton').addEventListener('click', () => {
+      if (timerRunning) {
+        clearInterval(clockInterval);
+        document.getElementById('pauseButton').textContent = "시계 시작";
+      } else {
+        startClock();
+        document.getElementById('pauseButton').textContent = "일시 정지";
+      }
+      timerRunning = !timerRunning;
+    });
+  </script>
+
+</body>
+</html>

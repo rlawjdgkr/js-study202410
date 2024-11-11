@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>배경 색상 변경</title>
+</head>
+<body>
+  <script>
+const colors = ['lightblue','lightgreen','lightcoral']
+const $document = document.body;
+let colorIndex = 0
+let intervalId;
+const moveColor = (() => {
+    $document.style.background = colors[colorIndex];
+    colorIndex = (colorIndex+1) % colors.length;
+});
+  function moveToNextColor(){
+    intervalId = setInterval(() => {
+      moveColor();
+    }, 3000);
+  };
+  moveToNextColor();
+  
+  setTimeout(() => {
+    clearInterval(intervalId);
+  }, 15000);
+  </script>
+</body>
+</html>
+
+<!-- 3초마다 웹 페이지의 배경 색상이 변경되도록 하세요. 
+색상은 lightblue, lightgreen, lightcoral이 순서대로 반복되며 변경됩니다.
+15초 후에 배경 색상 변경이 멈추도록 clearInterval을 사용하여 타이머를 취소합니다. -->
