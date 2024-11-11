@@ -19,11 +19,18 @@
     $fontSizeInput.addEventListener('input', () => {
       const size = $fontSizeInput.value;
       
-      if(size !== Number)
-      $warning.style.display='block';
-      else{
-    $content.style.fontSize = `${size}px`;
+      
+      //입력된 값이 숫자인지 확인
+      // NaN비교는 ===으로 불가능 , isNaN함수로 비교
+      if(isNaN(+size) || size === ''){
+        console.log('숫자가 아님!');
+        
+        $warning.style.display = 'block';
+      }else{      
+        console.log('숫자가 맞음!');
+        $warning.style.display = 'none';
       }
+      $content.style.size = `${size}px`;
     });
   </script>
 
