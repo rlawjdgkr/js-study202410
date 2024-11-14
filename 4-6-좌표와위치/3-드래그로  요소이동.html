@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>마우스 좌표 기반 위치 이동</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: #007bff;
+      position: absolute;
+      top: 100px;
+      left: 100px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box" id="box">박스</div>
+
+  <script>
+    const box = document.getElementById('box');
+    let isDragging = false;
+
+    box.addEventListener('mousedown', (event) => {
+      isDragging = true;
+    });
+
+    document.addEventListener('mousemove', (event) => {
+      if (isDragging) {
+        box.style.left = `${event.clientX - box.offsetWidth / 2}px`;
+        box.style.top = `${event.clientY - box.offsetHeight / 2}px`;
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+  </script>
+
+</body>
+</html>
