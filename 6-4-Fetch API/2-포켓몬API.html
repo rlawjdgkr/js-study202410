@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    .pokemon-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .pokemon {
+      width: 150px;
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .pokemon img {
+      width: 100px;
+      height: 100px;
+    }
+    .loading {
+      margin: 20px;
+      font-size: 18px;
+      color: #666;
+    }
+    #modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      display: none;
+      z-index: 1000;
+      text-align: left;
+    }
+    #modal h2 {
+      margin-top: 0;
+    }
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      z-index: 999;
+    }
+    .type-image {
+      width: 40px; 
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <button id="prev">이전</button>
+  <button id="next">다음</button>
+
+  <h1>포켓몬 도감</h1>
+  <div class="pokemon-container" id="pokemonContainer"></div>
+  <div class="loading" id="loading">로딩 중...</div>
+
+  <!-- 모달 -->
+  <div id="overlay"></div>
+  <div id="modal">
+    <h2 id="modalTitle">포켓몬 정보</h2>
+    <img id="modalImage" src="" alt="포켓몬 이미지" style="width: 150px; height: 150px;">
+    <p id="modalDetails"></p>
+    <ul id="modalTypes"></ul>
+    <div class="damage-relations">
+      <h3>데미지 관계</h3>
+      <p><strong>더블 데미지:</strong> <span id="doubleDamage"></span></p>
+      <p><strong>반감 데미지:</strong> <span id="halfDamage"></span></p>
+      <p><strong>노 데미지:</strong> <span id="noDamage"></span></p>
+    </div>
+    <button id="closeModal">닫기</button>
+  </div>
+
+  
+  <script>
+    const $pokeContainer = document.getElementById('pokemonContainer');
+    const $loading = document.getElementById('loading');
+    const $prev = document.getElementById('prev');
+    const $next = document.getElementById('next');
+
+    // 모달
+    const $overlay = document.getElementById('overlay');
+    const $modal = document.getElementById('modal');
+    
+    const pokeUrl = 'https://pokeapi.co/api/v2/pokemon';
+    let offset = 0; // 시작위치
+    let limit = 45; // 데이터 개수
+    let count;
+    let isLoading = false; // 로딩 상태 플래그
+
+    // 포켓몬 상세보기 클릭 이벤트
+    $pokeContainer.addEventListener('click', e => {
+      const $pokeDiv = e.target.closest('.pokemon');
+      if (!$pokeDiv) return;
+
+      // 모달 열기
+      $overlay.style.display = 'block';
+      $modal.style.display = 'block';
+
+    });
+
+    $prev.addEventListener('click', e => {
+      offset -= limit;
+      if (offset < 0) {
+        offset = 0;
+        $pokeContainer.textContent = '이전 데이터가 없습니다.';
+        return;
+      }
+      getPokemon();
+    });
+    $next.addEventListener('click', e => {
+      offset += limit;
+      if (offset > count) {
+        $pokeContainer.textContent = '다음 데이터가 없습니다.';
+        return;
+      }
+      getPokemon();
+    });
+
+    // 포켓몬 api 통신
+    async function getPokemon() {
+
+      if (isLoading) return;
+
+      $pokeContainer.innerHTML = '';
+
+      // 로딩 바 제어
+      isLoading = true; // 로딩 중 상태
+      $loading.style.opacity = '1';
+
+      setTimeout(async () => {
+        // 포켓몬 45마리 목록정보 가져오기 요청
+        const res = await fetch(`${pokeUrl}?offset=${offset}&limit=${limit}`);      
+        const { results, count: pokeCount } = await res.json();
+        count = pokeCount;        
+      
+        // forEach는 하나의 작업이 끝날 때까지 기다리지 않음
+        // for ~ of는 동기식 코드이기 때문에 순서대로 작업을 수행
+        for (const pokemon of results) {
+          // 가져온 포켓몬들의 상세정보를 서버에 요청
+          const res = await fetch(pokemon.url);
+          const {sprites} = await res.json();
+          const imgSrc = sprites.front_default;
+
+          const $div = document.createElement('div');
+          $div.classList.add('pokemon');
+          $div.innerHTML = `
+          <img src="${imgSrc}" alt=${pokemon.name}>
+          <h3>${pokemon.name}</h3>
+          `;
+
+          $pokeContainer.append($div);
+        }
+  
+        isLoading = false; // 로딩 종료 상태
+        $loading.style.opacity = '0';
+      }, 1000);
+    }
+    // 초기 화면이 렌더링될 때 fetch
+    getPokemon();
+    
+  </script>
+</body>
+</html>

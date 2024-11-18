@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>영화 이미지 가져오기</title>
+  <style>
+    #container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid black;
+      margin-bottom: 20px;
+    }
+    ul {
+      font-size: 10px;
+      width: 30%;
+      display: flex;
+      justify-content: space-between;
+      list-style: none;
+      padding: 0;
+    }
+    .movie {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 150px;
+      text-align: center;
+      border: 1px solid #000;
+      padding: 10px;
+      cursor: pointer;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .movie-title {
+      margin-top: 5px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div>WhatsSsa!!!</div>
+    <ul>
+      <li>다운로드순</li>
+      <li>발매연도순</li>
+      <li>좋아요순</li>
+    </ul>
+  </header>
+  <div id="container"></div>
+  <div id="overlay">
+  <div class="movie" data-movie-id="${id}" data-bs-toggle="modal" data-bs-target="#detailModal">
+    <div class="img-box">
+        <img src="${large_cover_image}" alt="표지사진">
+    </div>
+    <div class="inner">
+        <div class="title">${title}</div>
+        <div class="year">${year}</div>
+        <div class="rating">${rating}</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    const offset = 1;
+    const limit = 20;
+    const movieUrl = `https://yts.mx/api/v2/list_movies.json?limit=${limit}&page=${offset}`;
+    const $container = document.getElementById('container');
+
+    // Fetch movies and display them
+    fetch(movieUrl)
+      .then((res) => res.json())
+      .then((result) => {
+        const movies = result.data.movies;
+        movies.forEach((movie) => {
+          const movieImageUrl = movie.large_cover_image;
+          const movietitle = movie.title;
+          const year = movie.year;
+
+    
+          const $movieDiv = document.createElement('div');
+          $movieDiv.classList.add('movie');
+
+          const imgbox = document.createElement('img');
+          imgbox.src = movieImageUrl;
+
+          const $title = document.createElement('div');
+          $title.classList.add('movie-title');
+          $title.textContent = movietitle;
+
+          const $year = document.createElement('div');
+          $year.textContent = `Year: ${year}`;
+
+         
+          $movieDiv.append(imgbox);
+          $movieDiv.append($title);
+          $movieDiv.append($year);
+
+     
+          $container.append($movieDiv);
+        });
+      });
+
+
+    $container.addEventListener('click', (e) => {
+      if(e.target)
+      console.log('클릭');
+      
+  
+    });
+  </script>
+</body>
+</html>
