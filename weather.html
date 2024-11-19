@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>날씨 앱</title>
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+          max-width: 600px;
+          margin: 20px auto;
+          padding: 20px;
+          background-color: #f0f8ff;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+          text-align: center;
+          color: #333;
+      }
+
+      #searchForm {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 20px;
+      }
+
+      #locationInput {
+          flex: 1;
+          padding: 10px;
+          margin-right: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 16px;
+      }
+
+      button {
+          padding: 10px 20px;
+          background-color: #007BFF;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          cursor: pointer;
+      }
+
+      button:hover {
+          background-color: #0056b3;
+      }
+
+      #weatherInfo {
+          text-align: center;
+          margin-top: 20px;
+      }
+
+      #weatherInfo h2 {
+          font-size: 24px;
+          margin-bottom: 10px;
+      }
+
+      #weatherInfo p {
+          font-size: 18px;
+          margin: 5px 0;
+      }
+
+    </style>
+</head>
+<body>
+    <h1>날씨 앱</h1>
+
+    <!-- 위치 입력 및 검색 -->
+    <div id="searchForm">
+        <input type="text" id="locationInput" placeholder="도시 이름을 입력하세요...">
+        <button id="searchWeather">날씨 검색</button>
+    </div>
+
+    <!-- 날씨 정보 표시 -->
+    <div id="weatherInfo">
+        <h2 id="locationName"></h2>
+        <p id="temperature"></p>
+        <p id="weatherDescription"></p>
+        <p id="humidity"></p>
+    </div>
+
+    <script>
+      // script.js
+
+      // DOM 요소 선택
+      const locationInput = document.getElementById('locationInput');
+      const searchWeatherButton = document.getElementById('searchWeather');
+      const locationName = document.getElementById('locationName');
+      const temperature = document.getElementById('temperature');
+      const weatherDescription = document.getElementById('weatherDescription');
+      const humidity = document.getElementById('humidity');
+
+      // WeatherAPI 키
+      const apiKey = '3fd4cb4b2fa6431497614011241911'; // 여기에 실제 API 키를 입력하세요
+
+      // 날씨 검색 버튼 클릭 이벤트 처리
+      searchWeatherButton.addEventListener('click', () => {
+          const location = locationInput.value.trim();
+          if (location === '') {
+              alert('도시 이름을 입력하세요.');
+              return;
+          }
+          
+          
+          getWeather(location);
+      });
+
+      // 날씨 정보 가져오기 (비동기 함수)
+      async function getWeather(location) {
+          try {
+              // WeatherAPI 호출
+              const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}&lang=ko`);
+              if (!response.ok) {
+                  throw new Error('날씨 정보를 가져오는 데 실패했습니다.');
+              }
+
+              // JSON 데이터 파싱
+              const data = await response.json();
+
+              // DOM에 날씨 정보 업데이트
+              updateWeatherInfo(data);
+          } catch (error) {
+              alert(error.message);
+          }
+      }
+
+      // 날씨 정보 DOM에 업데이트
+      function updateWeatherInfo(data) {
+          locationName.textContent = `${data.location.name}, ${data.location.country}`;
+          temperature.textContent = `온도: ${data.current.temp_c}°C`;
+          weatherDescription.textContent = `날씨: ${data.current.condition.text}`;
+          humidity.textContent = `습도: ${data.current.humidity}%`;
+      }
+
+    </script>
+</body>
+</html>

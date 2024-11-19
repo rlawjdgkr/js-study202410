@@ -24,6 +24,7 @@ section.todo-template {
   margin: 0 auto;
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0,0,0, 0.8);
+  z-index: 1;
 }
 section.todo-template .app-title {
   background: #22b8cf;
@@ -130,4 +131,7 @@ section.todo-template .content .todo-list .todo-list-item .modify {
 }
 section.todo-template .content .todo-list .todo-list-item .remove {  
   color: red;    
+}
+section.todo-template .content .todo-list .todo-list-item .openModal {  
+  color: black;    
 }

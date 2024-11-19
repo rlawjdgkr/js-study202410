@@ -63,6 +63,8 @@ function renderTodos() {
       </label>
       <div class="modify"><span class="lnr lnr-undo"></span></div>
       <div class="remove"><span class="lnr lnr-cross-circle"></span></div>
+      <div class="openModal"><span class="lnr lnr-list"></span></div>
+
     `;
     // 5. 이미 완료된 할 일은 체크처리하기 
     const $checkbox = $li.querySelector('input[type=checkbox]');
@@ -199,6 +201,15 @@ function todoModifyHandler(e) {
   isEnterMode = false;
   
 }
+
+function todoModalHandler(e) {
+  // 정확한 셀렉터를 확인하고 수정
+  if (!e.target.matches('.openModal span.lnr-list')) return;
+
+  console.log('Modal 버튼 클릭:', e.target);
+}
+
+
 //========= 이벤트 핸들러 등록 영역 ========//
 
 // 할 일 추가 기능
@@ -211,10 +222,21 @@ $todoListUl.addEventListener('click', todoDoneHandler);
 $todoListUl.addEventListener('click', todoEnterModifyModeHandler);
 // 수정 완료 기능
 $todoListUl.addEventListener('click', todoModifyHandler);
-
+// 모달 날짜 기능
+$todoListUl.addEventListener('click', todoModalHandler);
 //========= 코드 실행 영역 ========//
 
 /*
   - todos배열에 있는 객체들을 화면에 그려야 함
 */
 loadTodos();
+
+
+
+
+
+
+
+
+// 날짜 클릭 리스너 이벤트
+

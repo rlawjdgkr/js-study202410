@@ -14,12 +14,30 @@
 
     <!-- custom css -->
     <link rel="stylesheet" href="css/main.css">
-
+    <link rel="stylesheet" href="css/main2.css">
     <!-- custom js -->
     <script src="js/app.js" defer></script>
 
 </head>
 <body>
+    <div class='rap'>
+        <div class="header">
+           <div class="btn prevDay"></div>
+          <h2 class='dateTitle'></h2>
+          <div class="btn nextDay"></div>
+        </div>
+        
+        <div class="grid dateHead">
+          <div>일</div>
+          <div>월</div>
+          <div>화</div>
+          <div>수</div>
+          <div>목</div>
+          <div>금</div>
+          <div>토</div>
+        </div>
+        <div class="grid dateBoard"></div>
+      </div>
     <div class="wrapper">
         <section class="todo-template">
             <h1 class="app-title">일정 관리</h1>
@@ -29,37 +47,11 @@
                     <button type="submit" id="add"><span class="lnr lnr-plus-circle"></span></button>
                 </form>
                 <ul class="todo-list">
-                    <!-- <li data-id="1" class="todo-list-item">
-                        <label class="checkbox">
-                            <input type="checkbox">
-                            <span class="text">할 일 1</span>
-                        </label>
-                        <div class="modify">
-                            <span class="lnr lnr-undo"></span>
-                        </div>
-                        <div class="remove">
-                            <span class="lnr lnr-cross-circle"></span>
-                        </div>
-                    </li>
-                    <li data-id="2" class="todo-list-item">
-                        <label class="checkbox">
-                            <input type="checkbox">
-                            <span class="text">할 일 2</span>
-                        </label>
-                        <div class="modify"><span class="lnr lnr-undo"></span></div>
-                        <div class="remove"><span class="lnr lnr-cross-circle"></span></div>
-                    </li>
-                    <li data-id="3" class="todo-list-item">
-                        <label class="checkbox">
-                            <input type="checkbox">
-                            <span class="text">할 일 3</span>
-                        </label>
-                        <div class="modify"><span class="lnr lnr-undo"></span></div>
-                        <div class="remove"><span class="lnr lnr-cross-circle"></span></div>
-                    </li> -->
-                </ul>
+               </ul>
             </div>
         </section>
     </div>
+
+    
 </body>
 </html>
